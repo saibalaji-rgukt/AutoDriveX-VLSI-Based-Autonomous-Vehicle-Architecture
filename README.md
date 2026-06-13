@@ -1,37 +1,23 @@
 # 🚗 AutoDriveX - Autonomous Vehicle Decision System (Verilog RTL)
 
 ![Verilog](https://img.shields.io/badge/Language-Verilog-blue)
-![Vivado](https://img.shields.io/badge/Tool-Xilinx%20Vivado-green)
+![Vivado](https://img.shields.io/badge/Tool-AMD%20Xilinx%20Vivado-green)
 ![FPGA](https://img.shields.io/badge/Target-FPGA-orange)
 ![Simulation](https://img.shields.io/badge/Simulation-Passed-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-yellow)
 
-## 📖 Overview
+---
 
-AutoDriveX is a modular RTL design developed in **Verilog HDL** that models the decision-making logic of an autonomous vehicle.
+# 📖 Overview
 
-The system continuously monitors:
+AutoDriveX is a modular autonomous vehicle decision system developed using **Verilog HDL**. The design simulates the core decision-making logic of an autonomous vehicle by integrating obstacle detection, lane monitoring, speed control, sensor fusion, and motor control.
 
-- Obstacle Detection
-- Vehicle Distance
-- Lane Departure
-- Vehicle Speed
+The project follows a hierarchical RTL design approach where each subsystem is implemented as an independent module and integrated through a top-level controller.
 
-Based on sensor inputs, the controller determines the appropriate driving action such as:
-
-- Move Forward
-- Apply Brake
-- Turn Left
-- Turn Right
-- Emergency Stop
-
-The project was designed, simulated, synthesized, and verified using **AMD Xilinx Vivado**.
+The complete design has been simulated, synthesized, and verified using **AMD Xilinx Vivado**.
 
 ---
 
 # 🏗️ System Architecture
-
-```
 
 ```
                     +----------------------+
@@ -64,7 +50,6 @@ The project was designed, simulated, synthesized, and verified using **AMD Xilin
                                |
                                v
                         Vehicle Outputs
-
 ```
 
 ---
@@ -77,12 +62,12 @@ The project was designed, simulated, synthesized, and verified using **AMD Xilin
 - Speed Monitoring
 - Sensor Fusion Logic
 - Decision Making Unit
-- Motor Control Logic
+- Motor Controller
 - Behavioral Simulation
-- RTL Schematic
+- RTL Analysis
 - Synthesized Design
 - Resource Utilization Analysis
-- Timing Analysis
+- Timing Verification
 
 ---
 
@@ -111,68 +96,61 @@ AutoDriveX/
 │   ├── utilization_report.png
 │   └── timing_summary.png
 │
-├── README.md
-└── LICENSE
+└── README.md
 ```
 
 ---
 
 # 🧩 RTL Modules
 
-### Obstacle Detector
+## 1. Obstacle Detector
 
-Detects collision risk using obstacle presence and distance.
+Detects the presence of an obstacle and determines whether a collision risk exists based on the measured distance.
 
 **Inputs**
-
 - obstacle_detected
 - distance
 
 **Output**
-
 - collision_risk
 
 ---
 
-### Lane Detector
+## 2. Lane Detector
 
-Detects lane deviation and requests steering correction.
+Monitors lane departure and generates steering correction requests.
 
 **Inputs**
-
 - lane_left
 - lane_right
 
 **Outputs**
-
 - turn_left_req
 - turn_right_req
 
 ---
 
-### Speed Controller
+## 3. Speed Controller
 
-Monitors vehicle speed against a predefined speed limit.
+Monitors vehicle speed and compares it with the predefined speed limit.
 
 **Inputs**
-
 - speed
 - speed_limit
 
 **Outputs**
-
 - accelerate_req
 - brake_req
 
 ---
 
-### Sensor Fusion Engine
+## 4. Sensor Fusion Engine
 
-Combines information from all sensors and generates a unified vehicle status.
+Combines information from all sensor modules and generates a single vehicle status.
 
 Priority:
 
-1. Collision Risk
+1. Emergency Stop
 2. Turn Left
 3. Turn Right
 4. Brake
@@ -180,21 +158,21 @@ Priority:
 
 ---
 
-### Decision Unit
+## 5. Decision Unit
 
-Generates vehicle control decisions based on the fused sensor status.
+Generates the final driving action according to the fused vehicle status.
 
 Outputs:
 
 - Move Forward
-- Brake
+- Apply Brake
 - Turn Left
 - Turn Right
 - Emergency Stop
 
 ---
 
-### Motor Controller
+## 6. Motor Controller
 
 Converts decision signals into motor control outputs.
 
@@ -208,51 +186,52 @@ Outputs:
 
 ---
 
-# 🧪 Test Scenarios
+# 🧪 Testbench Verification
 
-The testbench verifies the following scenarios:
+The behavioral testbench validates multiple driving scenarios.
+
+### Test Cases
 
 - Normal Driving
 - Left Lane Drift
 - Right Lane Drift
-- Obstacle Detection
+- Safe Obstacle Detection
 - Collision Risk
 - Over Speed
 - Safe Speed Recovery
 - Emergency Stop
 - Return to Normal Driving
 
+All scenarios were successfully verified through behavioral simulation.
+
 ---
 
-# 📊 Simulation Results
+# 📊 Results
 
-Behavioral Simulation successfully completed.
-
-Included in **docs/**
+The following outputs are available inside the **docs/** folder.
 
 - Behavioral Waveform
 - RTL Schematic
 - Synthesized Schematic
-- Utilization Report
+- Resource Utilization Report
 - Timing Summary
 
 ---
 
-# 🛠️ Tools Used
+# 🛠️ Development Tools
 
 - Verilog HDL
-- AMD Xilinx Vivado 2025.2
+- AMD Xilinx Vivado
 - Behavioral Simulation
 - RTL Analysis
-- Synthesis
-- Implementation
+- Logic Synthesis
 
 ---
 
-# 📈 Resource Utilization
+# 📈 FPGA Resource Utilization
 
-| Resource | Usage |
-|----------|-------|
+| Resource | Utilization |
+|----------|-------------|
 | Slice LUTs | 8 |
 | Slice Registers | 4 |
 | Bonded IOB | 32 |
@@ -261,34 +240,50 @@ Included in **docs/**
 
 # ⏱️ Timing Summary
 
-- WNS : No Timing Violations
-- TNS : 0 ns
-- WHS : No Hold Violations
-- THS : 0 ns
+- Worst Negative Slack (WNS): No Timing Violations
+- Total Negative Slack (TNS): 0 ns
+- Worst Hold Slack (WHS): No Hold Violations
+- Total Hold Slack (THS): 0 ns
 
-*This project is a combinational RTL design without user-defined timing constraints.*
+**Note:** This project is a combinational RTL design without user-defined clock constraints.
 
 ---
 
 # 🚀 Future Improvements
 
 - Clocked FSM Architecture
-- FPGA Board Implementation
-- UART Sensor Interface
-- Camera Sensor Integration
+- FPGA Hardware Implementation
+- UART-Based Sensor Interface
 - CAN Bus Communication
+- Camera Sensor Integration
 - VGA Dashboard
-- AI-assisted Obstacle Detection
+- AI-Based Obstacle Detection
 
 ---
 
 # 🎯 Applications
 
-- Autonomous Vehicles
-- ADAS Prototyping
-- FPGA Learning
-- RTL Design Practice
+- Autonomous Vehicle Control
+- ADAS Research
+- FPGA Design Practice
+- RTL Design Learning
 - Digital System Design
+- Embedded Hardware Development
+
+---
+
+# 📚 Learning Outcomes
+
+This project demonstrates practical experience in:
+
+- Verilog RTL Design
+- Modular Hardware Architecture
+- Combinational Logic Design
+- Sensor Fusion
+- Hierarchical Design Methodology
+- Functional Verification
+- FPGA Design Flow
+- Vivado Simulation and Synthesis
 
 ---
 
@@ -298,16 +293,11 @@ Included in **docs/**
 
 Electronics and Communication Engineering (ECE)
 
-Interested in:
+### Areas of Interest
 
 - RTL Design
 - FPGA Design
 - VLSI
 - Computer Architecture
+- Digital System Design
 - Embedded Systems
-
----
-
-# 📜 License
-
-This project is licensed under the MIT License.
